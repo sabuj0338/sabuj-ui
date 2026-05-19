@@ -1,0 +1,807 @@
+---
+import {
+  Timeline,
+  TimelineIndicator,
+  TimelineItem,
+  TimelineSeparator,
+  TimelineTitle,
+} from "@/components/ui/timeline"
+import Layout from "@/layouts/main.astro"
+import timelineCode from "@/components/ui/timeline.tsx?raw"
+import {
+  BookOpen,
+  Check,
+  Code2,
+  Copy,
+  Download,
+  Eye,
+  FileCode2,
+  FileText,
+  Layers3,
+  Package,
+  PanelLeft,
+  Sparkles,
+  Terminal,
+  Moon,
+  Sun,
+} from "lucide-react"
+
+const components = [
+  {
+    id: "timeline",
+    name: "Timeline",
+    status: "Ready",
+    description:
+      "A composable timeline primitive for order progress, onboarding flows, release steps, and status-driven UI.",
+    file: "src/components/ui/timeline.tsx",
+    source: timelineCode,
+    exports: [
+      "Timeline",
+      "TimelineItem",
+      "TimelineIndicator",
+      "TimelineSeparator",
+      "TimelineTitle",
+    ],
+    dependencies: ["class-variance-authority", "lucide-react", "@/lib/utils"],
+    props: [
+      {
+        name: "orientation",
+        type: '"horizontal" | "vertical"',
+        defaultValue: '"horizontal"',
+        description: "Changes the layout direction for the entire timeline.",
+      },
+      {
+        name: "status",
+        type: '"default" | "completed" | "current"',
+        defaultValue: '"default"',
+        description:
+          "Controls indicator, title, and separator styling for each timeline state.",
+      },
+      {
+        name: "className",
+        type: "string",
+        defaultValue: "-",
+        description:
+          "Extends the generated Tailwind classes through the local cn utility.",
+      },
+    ],
+  },
+]
+
+const timelineExample = String.raw`import {
+  Timeline,
+  TimelineIndicator,
+  TimelineItem,
+  TimelineSeparator,
+  TimelineTitle,
+} from "@/components/ui/timeline"
+import { Check } from "lucide-react"
+
+export function OrderTimeline() {
+  return (
+    <Timeline orientation="horizontal">
+      <TimelineItem>
+        <TimelineIndicator status="completed">
+          <Check />
+        </TimelineIndicator>
+        <TimelineTitle status="completed">Order Placed</TimelineTitle>
+      </TimelineItem>
+      <TimelineSeparator status="completed" />
+      <TimelineItem>
+        <TimelineIndicator status="current">
+          <Check />
+        </TimelineIndicator>
+        <TimelineTitle status="current">Shipped</TimelineTitle>
+      </TimelineItem>
+    </Timeline>
+  )
+}`
+---
+
+<Layout
+  title="Sabuj UI - Component Documentation"
+  description="Preview, document, copy, and download custom React components built with Tailwind CSS and shadcn/ui patterns."
+>
+  <div class="min-h-screen bg-background text-foreground">
+    <header
+      class="sticky top-0 z-30 border-b bg-background/90 backdrop-blur-xl"
+    >
+      <div
+        class="mx-auto flex h-14 max-w-7xl items-center justify-between gap-4 px-5 lg:px-8"
+      >
+        <a href="/" class="flex min-w-0 items-center gap-3">
+          <span
+            class="grid size-8 shrink-0 place-items-center rounded-md bg-foreground text-background"
+          >
+            <Layers3 className="size-4" />
+          </span>
+          <span class="truncate text-sm font-semibold">Sabuj UI</span>
+        </a>
+
+        <nav
+          class="hidden items-center gap-1 md:flex"
+          aria-label="Top navigation"
+        >
+          <a
+            href="#components"
+            class="rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+          >
+            Components
+          </a>
+          <a
+            href="#timeline"
+            class="rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+          >
+            Timeline
+          </a>
+          <a
+            href="#documentation-guide"
+            class="rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+          >
+            Guide
+          </a>
+        </nav>
+
+        <div class="flex items-center gap-2">
+          <button
+            id="theme-toggle"
+            type="button"
+            class="inline-flex h-9 w-9 items-center justify-center rounded-md border bg-background text-sm font-medium transition-colors hover:bg-accent focus:outline-none"
+            aria-label="Toggle theme"
+          >
+            <Sun
+              className="h-4 w-4 scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90"
+            />
+            <Moon
+              className="absolute h-4 w-4 scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0"
+            />
+          </button>
+          <a
+            href="/docs/component-documentation-guide/"
+            class="inline-flex h-9 items-center justify-center gap-2 rounded-md border bg-background px-3 text-sm font-medium transition-colors hover:bg-accent"
+          >
+            <BookOpen className="size-4" />
+            <span class="hidden sm:inline">Guide</span>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <section class="bg-dot-pattern relative overflow-hidden border-b">
+      <div
+        class="pointer-events-none absolute inset-0 bg-linear-to-b from-background/10 via-background/50 to-background"
+      >
+      </div>
+      <div
+        class="relative mx-auto grid max-w-7xl gap-8 px-5 py-16 lg:grid-cols-[1fr_22rem] lg:px-8 lg:py-24"
+      >
+        <div class="max-w-3xl space-y-6">
+          <div
+            class="inline-flex items-center gap-2 rounded-full border bg-background/50 px-3 py-1.5 text-sm font-medium text-muted-foreground backdrop-blur-sm"
+          >
+            <Package className="size-4 text-primary" />
+            Astro + React + Tailwind CSS
+          </div>
+          <div class="space-y-4">
+            <h1
+              class="text-4xl font-bold tracking-tight text-balance md:text-6xl"
+            >
+              Component docs for your custom shadcn-style UI
+            </h1>
+            <p class="max-w-2xl text-lg leading-8 text-muted-foreground">
+              Browse live previews, inspect usage examples, copy source, and
+              download reusable React components from one clean documentation
+              surface.
+            </p>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <a
+              href="#timeline"
+              class="inline-flex h-10 items-center justify-center gap-2 rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+            >
+              <Eye className="size-4" />
+              View components
+            </a>
+            <a
+              href="#documentation-guide"
+              class="inline-flex h-10 items-center justify-center gap-2 rounded-md border bg-background px-4 text-sm font-medium transition-colors hover:bg-accent"
+            >
+              <FileText className="size-4" />
+              Documentation workflow
+            </a>
+          </div>
+        </div>
+
+        <div class="grid gap-4 sm:grid-cols-3 lg:grid-cols-1">
+          <div
+            class="rounded-xl border bg-background/50 p-5 shadow-sm backdrop-blur-sm transition-all hover:bg-background/80"
+          >
+            <div
+              class="mb-3 flex items-center gap-2 text-sm font-medium text-muted-foreground"
+            >
+              <div class="rounded-md bg-primary/10 p-1">
+                <Layers3 className="size-4 text-primary" />
+              </div>
+              Library
+            </div>
+            <p class="text-3xl font-bold tracking-tight">{components.length}</p>
+            <p class="mt-1 text-sm text-muted-foreground">
+              documented component
+            </p>
+          </div>
+          <div
+            class="rounded-xl border bg-background/50 p-5 shadow-sm backdrop-blur-sm transition-all hover:bg-background/80"
+          >
+            <div
+              class="mb-3 flex items-center gap-2 text-sm font-medium text-muted-foreground"
+            >
+              <div class="rounded-md bg-primary/10 p-1">
+                <Sparkles className="size-4 text-primary" />
+              </div>
+              Experience
+            </div>
+            <p class="text-xl font-bold tracking-tight">Preview first</p>
+            <p class="mt-1 text-sm text-muted-foreground">
+              source is hidden until needed
+            </p>
+          </div>
+          <div
+            class="rounded-xl border bg-background/50 p-5 shadow-sm backdrop-blur-sm transition-all hover:bg-background/80"
+          >
+            <div
+              class="mb-3 flex items-center gap-2 text-sm font-medium text-muted-foreground"
+            >
+              <div class="rounded-md bg-primary/10 p-1">
+                <FileCode2 className="size-4 text-primary" />
+              </div>
+              Actions
+            </div>
+            <p class="text-xl font-bold tracking-tight">Copy + download</p>
+            <p class="mt-1 text-sm text-muted-foreground">
+              available for every component
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div
+      id="components"
+      class="mx-auto grid max-w-7xl gap-8 px-5 py-8 lg:grid-cols-[17rem_minmax(0,1fr)] lg:px-8"
+    >
+      <aside class="lg:sticky lg:top-20 lg:h-[calc(100vh-6rem)]">
+        <nav aria-label="Documentation navigation" class="space-y-8 text-sm">
+          <div>
+            <div class="mb-3 flex items-center gap-2 font-semibold">
+              <PanelLeft className="size-4 text-primary" />
+              Navigation
+            </div>
+            <div class="flex flex-col gap-1 border-l-2 border-border/50 pl-3">
+              <a
+                href="#components"
+                class="rounded-md px-2 py-1.5 text-muted-foreground transition-colors hover:text-foreground"
+              >
+                Overview
+              </a>
+              {
+                components.map((component) => (
+                  <a
+                    href={`#${component.id}`}
+                    class="rounded-md bg-accent px-2 py-1.5 font-medium text-foreground transition-colors"
+                  >
+                    {component.name}
+                  </a>
+                ))
+              }
+              <a
+                href="#documentation-guide"
+                class="rounded-md px-2 py-1.5 text-muted-foreground transition-colors hover:text-foreground"
+              >
+                Guide
+              </a>
+            </div>
+          </div>
+
+          <div class="hidden lg:block">
+            <p class="mb-3 font-semibold">On this page</p>
+            <div class="flex flex-col gap-1 border-l-2 border-border/50 pl-3">
+              <a
+                href="#timeline"
+                class="block rounded-md px-2 py-1.5 text-muted-foreground hover:text-foreground"
+              >
+                Preview
+              </a>
+              <a
+                href="#timeline-usage"
+                class="block rounded-md px-2 py-1.5 text-muted-foreground hover:text-foreground"
+              >
+                Usage
+              </a>
+              <a
+                href="#timeline-api"
+                class="block rounded-md px-2 py-1.5 text-muted-foreground hover:text-foreground"
+              >
+                API reference
+              </a>
+            </div>
+          </div>
+        </nav>
+      </aside>
+
+      <main class="min-w-0 space-y-10">
+        <section class="space-y-3">
+          <p class="text-sm font-medium text-primary">Components</p>
+          <h2 class="text-3xl font-semibold">Library</h2>
+          <p class="max-w-2xl text-sm leading-6 text-muted-foreground">
+            Each component follows the same documentation contract so the
+            catalog can grow without becoming messy: live examples first,
+            implementation details second, and source actions always nearby.
+          </p>
+        </section>
+
+        <section
+          id="timeline"
+          class="scroll-mt-24 space-y-6"
+          data-component-doc
+        >
+          <div class="rounded-lg border bg-background shadow-sm">
+            <div class="border-b p-5 md:p-6">
+              <div
+                class="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between"
+              >
+                <div class="min-w-0 space-y-3">
+                  <div class="flex flex-wrap items-center gap-2">
+                    <span
+                      class="inline-flex items-center rounded-md bg-primary/10 px-2 py-1 text-xs font-medium text-primary ring-1 ring-primary/20"
+                    >
+                      {components[0].status}
+                    </span>
+                    <code
+                      class="rounded-md bg-muted px-2 py-1 text-xs text-muted-foreground"
+                    >
+                      {components[0].file}
+                    </code>
+                  </div>
+                  <div class="space-y-2">
+                    <h2 class="text-3xl font-semibold">Timeline</h2>
+                    <p
+                      class="max-w-2xl text-sm leading-6 text-muted-foreground"
+                    >
+                      {components[0].description}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="min-w-0 divide-y">
+              <section id="timeline-preview" class="scroll-mt-24 p-5 md:p-6">
+                <div
+                  class="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"
+                >
+                  <div
+                    class="inline-flex w-fit items-center rounded-md border bg-muted p-1 text-sm font-medium"
+                    role="tablist"
+                  >
+                    <button
+                      type="button"
+                      class="rounded-sm bg-background px-3 py-1.5 shadow-sm transition-all focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+                      role="tab"
+                      aria-selected="true"
+                      data-tab-group="timeline"
+                      data-tab-target="timeline-preview-content"
+                    >
+                      Preview
+                    </button>
+                    <button
+                      type="button"
+                      class="rounded-sm px-3 py-1.5 text-muted-foreground transition-all hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+                      role="tab"
+                      aria-selected="false"
+                      data-tab-group="timeline"
+                      data-tab-target="timeline-code-content"
+                    >
+                      Code
+                    </button>
+                  </div>
+
+                  <div class="flex items-center gap-2">
+                    <button
+                      type="button"
+                      class="inline-flex h-8 items-center justify-center gap-2 rounded-md border bg-background px-3 text-xs font-medium transition-colors hover:bg-accent"
+                      data-copy-target="timeline-source"
+                    >
+                      <Copy className="size-3.5" />
+                      <span data-button-label>Copy</span>
+                    </button>
+                    <button
+                      type="button"
+                      class="inline-flex h-8 items-center justify-center gap-2 rounded-md border bg-background px-3 text-xs font-medium transition-colors hover:bg-accent"
+                      data-download-target="timeline-source"
+                      data-download-file="timeline.tsx"
+                    >
+                      <Download className="size-3.5" />
+                      <span data-button-label>Download</span>
+                    </button>
+                  </div>
+                </div>
+
+                <div id="timeline-preview-content" role="tabpanel">
+                  <div
+                    class="overflow-hidden rounded-lg border bg-[radial-gradient(circle_at_1px_1px,#e5e5e5_1px,transparent_0)] bg-[size:20px_20px] dark:bg-[radial-gradient(circle_at_1px_1px,#333_1px,transparent_0)]"
+                  >
+                    <div class="bg-background/86 p-5 md:p-8">
+                      <div class="space-y-10">
+                        <Timeline
+                          orientation="horizontal"
+                          className="overflow-x-auto pb-2"
+                        >
+                          <TimelineItem>
+                            <TimelineIndicator status="completed">
+                              <Check className="size-3.5" />
+                            </TimelineIndicator>
+                            <TimelineTitle status="completed"
+                              >Order Placed</TimelineTitle
+                            >
+                          </TimelineItem>
+                          <TimelineSeparator status="completed" />
+                          <TimelineItem>
+                            <TimelineIndicator status="completed">
+                              <Check className="size-3.5" />
+                            </TimelineIndicator>
+                            <TimelineTitle status="completed"
+                              >Confirmed</TimelineTitle
+                            >
+                          </TimelineItem>
+                          <TimelineSeparator status="current" />
+                          <TimelineItem>
+                            <TimelineIndicator status="current">
+                              <Check className="size-3.5" />
+                            </TimelineIndicator>
+                            <TimelineTitle status="current"
+                              >Shipped</TimelineTitle
+                            >
+                          </TimelineItem>
+                          <TimelineSeparator status="default" />
+                          <TimelineItem>
+                            <TimelineIndicator status="default">
+                              <Check className="size-3.5" />
+                            </TimelineIndicator>
+                            <TimelineTitle status="default"
+                              >Delivered</TimelineTitle
+                            >
+                          </TimelineItem>
+                        </Timeline>
+
+                        <div class="space-y-6">
+                          <Timeline orientation="vertical">
+                            <TimelineItem>
+                              <TimelineIndicator status="completed">
+                                <Check className="size-3.5" />
+                              </TimelineIndicator>
+                              <TimelineTitle status="completed"
+                                >Install package</TimelineTitle
+                              >
+                            </TimelineItem>
+                            <TimelineSeparator status="completed" />
+                            <TimelineItem>
+                              <TimelineIndicator status="current">
+                                <Check className="size-3.5" />
+                              </TimelineIndicator>
+                              <TimelineTitle status="current"
+                                >Copy component</TimelineTitle
+                              >
+                            </TimelineItem>
+                            <TimelineSeparator status="default" />
+                            <TimelineItem>
+                              <TimelineIndicator status="default">
+                                <Check className="size-3.5" />
+                              </TimelineIndicator>
+                              <TimelineTitle status="default"
+                                >Customize styles</TimelineTitle
+                              >
+                            </TimelineItem>
+                          </Timeline>
+                          <div
+                            class="max-w-xl rounded-lg border bg-background p-4"
+                          >
+                            <p class="text-sm font-semibold">
+                              Use it for status-heavy UI
+                            </p>
+                            <p
+                              class="mt-2 text-sm leading-6 text-muted-foreground"
+                            >
+                              Timelines work well for checkout, onboarding,
+                              deployment progress, release steps, and audit
+                              trails.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div id="timeline-code-content" role="tabpanel" class="hidden">
+                  <pre
+                    class="max-h-[38rem] overflow-auto rounded-lg border bg-zinc-950 p-4 text-sm leading-6 text-zinc-100"><code id="timeline-source">{components[0].source}</code></pre>
+                </div>
+
+                <div class="mt-6 rounded-lg border bg-muted/20 p-5 md:p-6">
+                  <div class="grid gap-6 sm:grid-cols-3">
+                    <div>
+                      <h3 class="mb-3 text-sm font-semibold">Exports</h3>
+                      <div class="flex flex-wrap gap-2">
+                        {
+                          components[0].exports.map((item) => (
+                            <code class="rounded-md border bg-background px-2 py-1 text-xs">
+                              {item}
+                            </code>
+                          ))
+                        }
+                      </div>
+                    </div>
+                    <div>
+                      <h3 class="mb-3 text-sm font-semibold">Dependencies</h3>
+                      <div class="flex flex-wrap gap-2">
+                        {
+                          components[0].dependencies.map((item) => (
+                            <div class="rounded-md border bg-background px-2 py-1 text-xs">
+                              <code>{item}</code>
+                            </div>
+                          ))
+                        }
+                      </div>
+                    </div>
+                    <div>
+                      <h3 class="mb-3 text-sm font-semibold">Install notes</h3>
+                      <p class="text-xs leading-5 text-muted-foreground">
+                        Requires local <code>cn</code> helper, Tailwind CSS variables
+                        from <code>global.css</code>, and <code
+                          >class-variance-authority</code
+                        >.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <section id="timeline-usage" class="scroll-mt-24 p-5 md:p-6">
+                <div class="mb-4 flex items-center gap-2 text-sm font-semibold">
+                  <Terminal className="size-4 text-primary" />
+                  Usage
+                </div>
+                <pre
+                  class="overflow-auto rounded-lg border bg-muted p-4 text-sm leading-6"><code>{timelineExample}</code></pre>
+              </section>
+
+              <section id="timeline-api" class="scroll-mt-24 p-5 md:p-6">
+                <div class="mb-4 flex items-center gap-2 text-sm font-semibold">
+                  <FileCode2 className="size-4 text-primary" />
+                  API reference
+                </div>
+                <div class="overflow-hidden rounded-lg border">
+                  <table class="w-full min-w-[42rem] text-left text-sm">
+                    <thead
+                      class="border-b bg-muted/60 text-xs text-muted-foreground"
+                    >
+                      <tr>
+                        <th class="px-4 py-3 font-medium">Prop</th>
+                        <th class="px-4 py-3 font-medium">Type</th>
+                        <th class="px-4 py-3 font-medium">Default</th>
+                        <th class="px-4 py-3 font-medium">Description</th>
+                      </tr>
+                    </thead>
+                    <tbody class="divide-y">
+                      {
+                        components[0].props.map((prop) => (
+                          <tr>
+                            <td class="px-4 py-3 align-top">
+                              <code class="font-semibold">{prop.name}</code>
+                            </td>
+                            <td class="px-4 py-3 align-top text-muted-foreground">
+                              <code>{prop.type}</code>
+                            </td>
+                            <td class="px-4 py-3 align-top text-muted-foreground">
+                              <code>{prop.defaultValue}</code>
+                            </td>
+                            <td class="px-4 py-3 align-top leading-6">
+                              {prop.description}
+                            </td>
+                          </tr>
+                        ))
+                      }
+                    </tbody>
+                  </table>
+                </div>
+              </section>
+            </div>
+
+            <section
+              id="documentation-guide"
+              class="scroll-mt-24 border-t px-6 py-10"
+            >
+              <div
+                class="grid gap-6 lg:grid-cols-[minmax(0,1fr)_18rem] lg:items-start"
+              >
+                <div class="space-y-4">
+                  <p class="text-sm font-medium text-primary">Guide</p>
+                  <h2 class="text-3xl font-semibold">
+                    Documenting a new component
+                  </h2>
+                  <p class="max-w-2xl text-sm leading-6 text-muted-foreground">
+                    Use <code>docs/component-documentation-guide.md</code> as the
+                    handoff prompt for another AI agent. The short version: add the
+                    component under <code>src/components/ui</code>, import its
+                    source with <code>?raw</code>, add it to navigation, then
+                    include preview, usage, props, copy, download, and hidden
+                    source code sections.
+                  </p>
+                  <a
+                    href="/docs/component-documentation-guide/"
+                    class="inline-flex h-10 items-center justify-center gap-2 rounded-md border bg-background px-4 text-sm font-medium transition-colors hover:bg-accent"
+                  >
+                    <FileText className="size-4" />
+                    Open guide file
+                  </a>
+                </div>
+
+                <div class="rounded-lg border bg-background p-4 shadow-sm">
+                  <p class="text-sm font-semibold">Agent-ready workflow</p>
+                  <p class="mt-2 text-sm leading-6 text-muted-foreground">
+                    The guide is written as implementation steps, not just
+                    prose, so it can be reused whenever a new component lands.
+                  </p>
+                </div>
+              </div>
+            </section>
+          </div>
+        </section>
+      </main>
+
+      <script>
+        // Theme setup
+        const getThemePreference = () => {
+          if (
+            typeof localStorage !== "undefined" &&
+            localStorage.getItem("theme")
+          ) {
+            return localStorage.getItem("theme")
+          }
+          return "system"
+        }
+
+        const applyTheme = (theme) => {
+          const isDark =
+            theme === "dark" ||
+            (theme === "system" &&
+              window.matchMedia("(prefers-color-scheme: dark)").matches)
+
+          document.documentElement.classList.toggle("dark", isDark)
+        }
+
+        // Initialize theme
+        let currentTheme = getThemePreference()
+        applyTheme(currentTheme)
+
+        // Listen for OS theme changes
+        window
+          .matchMedia("(prefers-color-scheme: dark)")
+          .addEventListener("change", (e) => {
+            if (currentTheme === "system") {
+              applyTheme("system")
+            }
+          })
+
+        // Toggle button handler
+        document
+          .getElementById("theme-toggle")
+          ?.addEventListener("click", () => {
+            const isDark = document.documentElement.classList.contains("dark")
+            currentTheme = isDark ? "light" : "dark"
+            localStorage.setItem("theme", currentTheme)
+            applyTheme(currentTheme)
+          })
+
+        const copyButtons = document.querySelectorAll("[data-copy-target]")
+        const downloadButtons = document.querySelectorAll(
+          "[data-download-target]"
+        )
+        const toggleButtons = document.querySelectorAll("[data-toggle-code]")
+
+        copyButtons.forEach((button) => {
+          button.addEventListener("click", async () => {
+            const targetId = button.getAttribute("data-copy-target")
+            const target = targetId ? document.getElementById(targetId) : null
+            const code = target?.textContent ?? ""
+            const label = button.querySelector("[data-button-label]")
+            const originalText = label?.textContent ?? "Copy"
+
+            await navigator.clipboard.writeText(code)
+            if (label) label.textContent = "Copied"
+
+            window.setTimeout(() => {
+              if (label) label.textContent = originalText
+            }, 1400)
+          })
+        })
+
+        downloadButtons.forEach((button) => {
+          button.addEventListener("click", () => {
+            const targetId = button.getAttribute("data-download-target")
+            const fileName =
+              button.getAttribute("data-download-file") ?? "component.tsx"
+            const target = targetId ? document.getElementById(targetId) : null
+            const code = target?.textContent ?? ""
+            const blob = new Blob([code], { type: "text/plain;charset=utf-8" })
+            const url = URL.createObjectURL(blob)
+            const link = document.createElement("a")
+
+            link.href = url
+            link.download = fileName
+            link.click()
+            URL.revokeObjectURL(url)
+          })
+        })
+
+        const tabButtons = document.querySelectorAll("[data-tab-target]")
+
+        tabButtons.forEach((button) => {
+          button.addEventListener("click", () => {
+            const group = button.getAttribute("data-tab-group")
+            const targetId = button.getAttribute("data-tab-target")
+
+            // Update tab styling
+            document
+              .querySelectorAll(`[data-tab-group="${group}"]`)
+              .forEach((btn) => {
+                btn.setAttribute("aria-selected", "false")
+                btn.classList.remove(
+                  "bg-background",
+                  "shadow-sm",
+                  "text-foreground"
+                )
+                btn.classList.add("text-muted-foreground")
+              })
+
+            button.setAttribute("aria-selected", "true")
+            button.classList.add(
+              "bg-background",
+              "shadow-sm",
+              "text-foreground"
+            )
+            button.classList.remove("text-muted-foreground")
+
+            // Update panel visibility
+            const section = button.closest("section")
+            if (section) {
+              section.querySelectorAll('[role="tabpanel"]').forEach((panel) => {
+                panel.classList.add("hidden")
+              })
+              const targetPanel = document.getElementById(targetId)
+              if (targetPanel) {
+                targetPanel.classList.remove("hidden")
+              }
+            }
+          })
+        })
+
+        // Action button logic to switch to code tab
+        const actionCodeButtons =
+          document.querySelectorAll("[data-action-code]")
+        actionCodeButtons.forEach((button) => {
+          button.addEventListener("click", () => {
+            const group = button.getAttribute("data-action-code")
+            const codeTabBtn = document.querySelector(
+              `[data-tab-group="${group}"][data-tab-target$="code-content"]`
+            )
+            if (codeTabBtn) {
+              codeTabBtn.click()
+              codeTabBtn.scrollIntoView({ behavior: "smooth", block: "start" })
+            }
+          })
+        })
+      </script>
+    </div>
+  </div></Layout
+>

@@ -1,0 +1,203 @@
+---
+import Layout from "@/layouts/main.astro"
+import {
+  ArrowLeft,
+  CheckCircle2,
+  FileCode2,
+  ListChecks,
+  Terminal,
+} from "lucide-react"
+---
+
+<Layout
+  title="Component Documentation Guide - Sabuj UI"
+  description="A repeatable guide for documenting new custom React components in Sabuj UI."
+>
+  <div
+    class="min-h-screen bg-[linear-gradient(to_bottom,#ffffff_0%,#fafafa_28rem,#ffffff_100%)]"
+  >
+    <header class="border-b bg-background/90 backdrop-blur-xl">
+      <div
+        class="mx-auto flex h-14 max-w-5xl items-center justify-between px-5 lg:px-8"
+      >
+        <a
+          href="/"
+          class="inline-flex h-9 items-center justify-center gap-2 rounded-md border bg-background px-3 text-sm font-medium transition-colors hover:bg-accent"
+        >
+          <ArrowLeft className="size-4" />
+          Back to components
+        </a>
+        <span class="text-sm font-semibold">Sabuj UI</span>
+      </div>
+    </header>
+
+    <main class="mx-auto max-w-5xl px-5 py-10 lg:px-8">
+      <article class="space-y-8">
+        <header class="max-w-3xl space-y-4">
+          <div
+            class="inline-flex items-center gap-2 rounded-md border bg-background px-3 py-1.5 text-sm font-medium text-muted-foreground"
+          >
+            <FileCode2 className="size-4 text-emerald-600" />
+            Agent workflow
+          </div>
+          <div class="space-y-3">
+            <h1
+              class="text-4xl font-semibold tracking-normal text-balance md:text-5xl"
+            >
+              Component documentation guide
+            </h1>
+            <p class="max-w-2xl text-base leading-7 text-muted-foreground">
+              Use <code>docs/component-documentation-guide.md</code> as the source
+              guide when adding a new custom component to the Sabuj UI documentation
+              site.
+            </p>
+          </div>
+        </header>
+
+        <section class="grid gap-4 md:grid-cols-3">
+          <div class="rounded-lg border bg-background p-4 shadow-sm">
+            <ListChecks className="mb-3 size-5 text-emerald-600" />
+            <h2 class="text-base font-semibold">Consistent sections</h2>
+            <p class="mt-2 text-sm leading-6 text-muted-foreground">
+              Every component gets preview, usage, source actions, and API
+              notes.
+            </p>
+          </div>
+          <div class="rounded-lg border bg-background p-4 shadow-sm">
+            <Terminal className="mb-3 size-5 text-emerald-600" />
+            <h2 class="text-base font-semibold">Raw source import</h2>
+            <p class="mt-2 text-sm leading-6 text-muted-foreground">
+              Import component code with <code>?raw</code> so copy and download stay
+              accurate.
+            </p>
+          </div>
+          <div class="rounded-lg border bg-background p-4 shadow-sm">
+            <CheckCircle2 className="mb-3 size-5 text-emerald-600" />
+            <h2 class="text-base font-semibold">Build verified</h2>
+            <p class="mt-2 text-sm leading-6 text-muted-foreground">
+              Finish with formatting, linting, and a production build.
+            </p>
+          </div>
+        </section>
+
+        <section class="rounded-lg border bg-background shadow-sm">
+          <div class="border-b p-5">
+            <h2 class="text-xl font-semibold">Required section checklist</h2>
+            <p class="mt-2 text-sm leading-6 text-muted-foreground">
+              Use this checklist for every new component documentation section.
+            </p>
+          </div>
+          <ul
+            class="grid gap-0 divide-y text-sm md:grid-cols-2 md:divide-x md:divide-y-0"
+          >
+            <div class="divide-y">
+              <li class="flex items-center gap-3 p-4">
+                <CheckCircle2 className="size-4 text-emerald-600" />
+                Left-menu anchor
+              </li>
+              <li class="flex items-center gap-3 p-4">
+                <CheckCircle2 className="size-4 text-emerald-600" />
+                Preview visible by default
+              </li>
+              <li class="flex items-center gap-3 p-4">
+                <CheckCircle2 className="size-4 text-emerald-600" />
+                Copy button for source
+              </li>
+              <li class="flex items-center gap-3 p-4">
+                <CheckCircle2 className="size-4 text-emerald-600" />
+                Download button for source
+              </li>
+            </div>
+            <div class="divide-y">
+              <li class="flex items-center gap-3 p-4">
+                <CheckCircle2 className="size-4 text-emerald-600" />
+                Show code button
+              </li>
+              <li class="flex items-center gap-3 p-4">
+                <CheckCircle2 className="size-4 text-emerald-600" />
+                Usage example
+              </li>
+              <li class="flex items-center gap-3 p-4">
+                <CheckCircle2 className="size-4 text-emerald-600" />
+                Exports list
+              </li>
+              <li class="flex items-center gap-3 p-4">
+                <CheckCircle2 className="size-4 text-emerald-600" />
+                Props and install notes
+              </li>
+            </div>
+          </ul>
+        </section>
+
+        <section class="rounded-lg border bg-background shadow-sm">
+          <div class="border-b p-5">
+            <h2 class="text-xl font-semibold">Main steps</h2>
+          </div>
+          <ol class="divide-y text-sm">
+            <li class="grid gap-2 p-4 md:grid-cols-[2rem_minmax(0,1fr)]">
+              <span class="font-semibold text-emerald-700">01</span>
+              <span
+                >Add the component source to <code
+                  >src/components/ui/{`{component-name}`}.tsx</code
+                >.</span
+              >
+            </li>
+            <li class="grid gap-2 p-4 md:grid-cols-[2rem_minmax(0,1fr)]">
+              <span class="font-semibold text-emerald-700">02</span>
+              <span
+                >Import the component and raw source in <code
+                  >src/pages/index.astro</code
+                >.</span
+              >
+            </li>
+            <li class="grid gap-2 p-4 md:grid-cols-[2rem_minmax(0,1fr)]">
+              <span class="font-semibold text-emerald-700">03</span>
+              <span
+                >Add metadata with <code>id</code>, <code>name</code>, <code
+                  >description</code
+                >, <code>file</code>, <code>source</code>, <code>exports</code>,
+                and <code>props</code>.</span
+              >
+            </li>
+            <li class="grid gap-2 p-4 md:grid-cols-[2rem_minmax(0,1fr)]">
+              <span class="font-semibold text-emerald-700">04</span>
+              <span
+                >Add navigation, preview, usage, hidden source, exports, props,
+                and install notes.</span
+              >
+            </li>
+            <li class="grid gap-2 p-4 md:grid-cols-[2rem_minmax(0,1fr)]">
+              <span class="font-semibold text-emerald-700">05</span>
+              <span
+                >Run <code>pnpm run format</code>, <code>pnpm run lint</code>,
+                and <code>pnpm run build</code>.</span
+              >
+            </li>
+          </ol>
+        </section>
+
+        <section class="rounded-lg border bg-background shadow-sm">
+          <div class="border-b p-5">
+            <h2 class="text-xl font-semibold">Data attributes</h2>
+            <p class="mt-2 text-sm leading-6 text-muted-foreground">
+              Use these attributes so the existing page script handles actions
+              consistently.
+            </p>
+          </div>
+          <div class="p-5">
+            <pre
+              class="overflow-auto rounded-lg border bg-zinc-950 p-4 text-sm leading-6 text-zinc-100"><code>{`<button data-copy-target="example-source">Copy</button>
+<button data-download-target="example-source" data-download-file="example-component.tsx">
+  Download
+</button>
+<button data-toggle-code="example-code" aria-expanded="false">Show code</button>
+
+<div id="example-code" class="hidden" data-code-panel>
+  <pre><code id="example-source">{exampleComponentCode}</code></pre>
+</div>`}</code></pre>
+          </div>
+        </section>
+      </article>
+    </main>
+  </div>
+</Layout>

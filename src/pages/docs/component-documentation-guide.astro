@@ -14,7 +14,7 @@ import {
   description="A repeatable guide for documenting new custom React components in Sabuj UI."
 >
   <div
-    class="min-h-screen bg-[linear-gradient(to_bottom,#ffffff_0%,#fafafa_28rem,#ffffff_100%)]"
+    class="min-h-screen bg-[linear-gradient(to_bottom,#ffffff_0%,#fafafa_28rem,#ffffff_100%)] dark:bg-background"
   >
     <header class="border-b bg-background/90 backdrop-blur-xl">
       <div
@@ -25,7 +25,7 @@ import {
           class="inline-flex h-9 items-center justify-center gap-2 rounded-md border bg-background px-3 text-sm font-medium transition-colors hover:bg-accent"
         >
           <ArrowLeft className="size-4" />
-          Back to components
+          Back to overview
         </a>
         <span class="text-sm font-semibold">Sabuj UI</span>
       </div>
@@ -48,8 +48,10 @@ import {
             </h1>
             <p class="max-w-2xl text-base leading-7 text-muted-foreground">
               Use <code>docs/component-documentation-guide.md</code> as the source
-              guide when adding a new custom component to the Sabuj UI documentation
-              site.
+              guide when adding a new custom component. The home page should stay
+              an overview, while each component gets a dedicated route under <code
+                >/components</code
+              >.
             </p>
           </div>
         </header>
@@ -57,10 +59,10 @@ import {
         <section class="grid gap-4 md:grid-cols-3">
           <div class="rounded-lg border bg-background p-4 shadow-sm">
             <ListChecks className="mb-3 size-5 text-emerald-600" />
-            <h2 class="text-base font-semibold">Consistent sections</h2>
+            <h2 class="text-base font-semibold">Dedicated pages</h2>
             <p class="mt-2 text-sm leading-6 text-muted-foreground">
-              Every component gets preview, usage, source actions, and API
-              notes.
+              Every component gets its own route with preview, usage, source
+              actions, and API notes.
             </p>
           </div>
           <div class="rounded-lg border bg-background p-4 shadow-sm">
@@ -73,18 +75,19 @@ import {
           </div>
           <div class="rounded-lg border bg-background p-4 shadow-sm">
             <CheckCircle2 className="mb-3 size-5 text-emerald-600" />
-            <h2 class="text-base font-semibold">Build verified</h2>
+            <h2 class="text-base font-semibold">Overview card</h2>
             <p class="mt-2 text-sm leading-6 text-muted-foreground">
-              Finish with formatting, linting, and a production build.
+              Add a light card to the home page that links into the full
+              component docs.
             </p>
           </div>
         </section>
 
         <section class="rounded-lg border bg-background shadow-sm">
           <div class="border-b p-5">
-            <h2 class="text-xl font-semibold">Required section checklist</h2>
+            <h2 class="text-xl font-semibold">Required page checklist</h2>
             <p class="mt-2 text-sm leading-6 text-muted-foreground">
-              Use this checklist for every new component documentation section.
+              Use this checklist for every new component documentation page.
             </p>
           </div>
           <ul
@@ -93,7 +96,11 @@ import {
             <div class="divide-y">
               <li class="flex items-center gap-3 p-4">
                 <CheckCircle2 className="size-4 text-emerald-600" />
-                Left-menu anchor
+                Landing-page overview card
+              </li>
+              <li class="flex items-center gap-3 p-4">
+                <CheckCircle2 className="size-4 text-emerald-600" />
+                Dedicated route under <code>/components</code>
               </li>
               <li class="flex items-center gap-3 p-4">
                 <CheckCircle2 className="size-4 text-emerald-600" />
@@ -103,15 +110,11 @@ import {
                 <CheckCircle2 className="size-4 text-emerald-600" />
                 Copy button for source
               </li>
-              <li class="flex items-center gap-3 p-4">
-                <CheckCircle2 className="size-4 text-emerald-600" />
-                Download button for source
-              </li>
             </div>
             <div class="divide-y">
               <li class="flex items-center gap-3 p-4">
                 <CheckCircle2 className="size-4 text-emerald-600" />
-                Show code button
+                Download button for source
               </li>
               <li class="flex items-center gap-3 p-4">
                 <CheckCircle2 className="size-4 text-emerald-600" />
@@ -145,25 +148,24 @@ import {
             <li class="grid gap-2 p-4 md:grid-cols-[2rem_minmax(0,1fr)]">
               <span class="font-semibold text-emerald-700">02</span>
               <span
-                >Import the component and raw source in <code
-                  >src/pages/index.astro</code
+                >Create <code
+                  >src/pages/components/{`{component-name}`}.astro</code
                 >.</span
               >
             </li>
             <li class="grid gap-2 p-4 md:grid-cols-[2rem_minmax(0,1fr)]">
               <span class="font-semibold text-emerald-700">03</span>
               <span
-                >Add metadata with <code>id</code>, <code>name</code>, <code
-                  >description</code
-                >, <code>file</code>, <code>source</code>, <code>exports</code>,
-                and <code>props</code>.</span
+                >Import the component and raw source with <code>?raw</code> in the
+                dedicated docs page.</span
               >
             </li>
             <li class="grid gap-2 p-4 md:grid-cols-[2rem_minmax(0,1fr)]">
               <span class="font-semibold text-emerald-700">04</span>
               <span
-                >Add navigation, preview, usage, hidden source, exports, props,
-                and install notes.</span
+                >Add a home-page overview card in <code
+                  >src/pages/index.astro</code
+                > that links to the component route.</span
               >
             </li>
             <li class="grid gap-2 p-4 md:grid-cols-[2rem_minmax(0,1fr)]">
@@ -180,8 +182,8 @@ import {
           <div class="border-b p-5">
             <h2 class="text-xl font-semibold">Data attributes</h2>
             <p class="mt-2 text-sm leading-6 text-muted-foreground">
-              Use these attributes so the existing page script handles actions
-              consistently.
+              Use these attributes so the existing page script handles source
+              actions consistently.
             </p>
           </div>
           <div class="p-5">
@@ -190,11 +192,8 @@ import {
 <button data-download-target="example-source" data-download-file="example-component.tsx">
   Download
 </button>
-<button data-toggle-code="example-code" aria-expanded="false">Show code</button>
 
-<div id="example-code" class="hidden" data-code-panel>
-  <pre><code id="example-source">{exampleComponentCode}</code></pre>
-</div>`}</code></pre>
+<pre><code id="example-source">{exampleComponentCode}</code></pre>`}</code></pre>
           </div>
         </section>
       </article>

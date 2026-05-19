@@ -1,102 +1,116 @@
 ---
-import {
-  Timeline as UITimeline,
-  TimelineIndicator,
-  TimelineItem,
-  TimelineSeparator,
-  TimelineTitle,
-} from "@/components/ui/timeline"
+import { PhoneInput as UIPhoneInput } from "@/components/ui/phone-input"
 import Layout from "@/layouts/main.astro"
 import SiteHeader from "@/components/site-header.astro"
-import timelineCode from "@/components/ui/timeline.tsx?raw"
+import phoneInputCode from "@/components/ui/phone-input.tsx?raw"
 import {
-  Check,
   Copy,
   Download,
   FileCode2,
   FileText,
+  Globe2,
   PanelLeft,
+  Phone,
   Terminal,
 } from "lucide-react"
 
 const component = {
-  id: "timeline",
-  name: "Timeline",
+  id: "phone-input",
+  name: "Phone Input",
   status: "Ready",
   description:
-    "A composable timeline primitive for order progress, onboarding flows, release steps, and status-driven UI.",
-  file: "src/components/ui/timeline.tsx",
-  source: timelineCode,
-  exports: [
-    "Timeline",
-    "TimelineItem",
-    "TimelineIndicator",
-    "TimelineSeparator",
-    "TimelineTitle",
+    "An international phone number input with country search, dialing codes, flags, and shadcn-styled controls.",
+  file: "src/components/ui/phone-input.tsx",
+  source: phoneInputCode,
+  exports: ["PhoneInput"],
+  dependencies: [
+    "react-phone-number-input",
+    "lucide-react",
+    "@/components/ui/button",
+    "@/components/ui/command",
+    "@/components/ui/input",
+    "@/components/ui/popover",
+    "@/components/ui/scroll-area",
+    "@/lib/utils",
   ],
-  dependencies: ["class-variance-authority", "lucide-react", "@/lib/utils"],
   props: [
     {
-      name: "orientation",
-      type: '"horizontal" | "vertical"',
-      defaultValue: '"horizontal"',
-      description: "Changes the layout direction for the entire timeline.",
+      name: "value",
+      type: "RPNInput.Value",
+      defaultValue: "-",
+      description:
+        "The controlled E.164 phone number value passed through react-phone-number-input.",
     },
     {
-      name: "status",
-      type: '"default" | "completed" | "current"',
-      defaultValue: '"default"',
+      name: "onChange",
+      type: "(value: RPNInput.Value) => void",
+      defaultValue: "-",
       description:
-        "Controls indicator, title, and separator styling for each timeline state.",
+        "Called whenever the number changes. Empty or invalid values are normalized to an empty string.",
+    },
+    {
+      name: "defaultCountry",
+      type: "RPNInput.Country",
+      defaultValue: "-",
+      description:
+        "Sets the initial country for formatting and calling-code selection.",
+    },
+    {
+      name: "international",
+      type: "boolean",
+      defaultValue: "-",
+      description:
+        "Uses international formatting behavior from react-phone-number-input.",
+    },
+    {
+      name: "placeholder",
+      type: "string",
+      defaultValue: "-",
+      description: "Placeholder text for the phone number input.",
+    },
+    {
+      name: "disabled",
+      type: "boolean",
+      defaultValue: "false",
+      description: "Disables the country selector and input field.",
     },
     {
       name: "className",
       type: "string",
       defaultValue: "-",
       description:
-        "Extends the generated Tailwind classes through the local cn utility.",
+        "Extends the wrapper class list through the local cn helper.",
     },
   ],
 }
 
-const timelineExample = String.raw`import {
-  Timeline,
-  TimelineIndicator,
-  TimelineItem,
-  TimelineSeparator,
-  TimelineTitle,
-} from "@/components/ui/timeline"
-import { Check } from "lucide-react"
+const noop = () => undefined
 
-export function OrderTimeline() {
+const phoneInputExample = String.raw`import { PhoneInput } from "@/components/ui/phone-input"
+
+export function ContactPhoneField() {
+  const [phone, setPhone] = React.useState("")
+
   return (
-    <Timeline orientation="horizontal">
-      <TimelineItem>
-        <TimelineIndicator status="completed">
-          <Check />
-        </TimelineIndicator>
-        <TimelineTitle status="completed">Order Placed</TimelineTitle>
-      </TimelineItem>
-      <TimelineSeparator status="completed" />
-      <TimelineItem>
-        <TimelineIndicator status="current">
-          <Check />
-        </TimelineIndicator>
-        <TimelineTitle status="current">Shipped</TimelineTitle>
-      </TimelineItem>
-    </Timeline>
+    <PhoneInput
+      defaultCountry="US"
+      international
+      value={phone}
+      onChange={setPhone}
+      placeholder="Enter phone number"
+    />
   )
 }`
 ---
 
 <Layout
-  title="Timeline Component - Sabuj UI"
-  description="A composable timeline primitive for order progress, onboarding flows, release steps, and status-driven UI."
-  keywords="timeline component, react timeline, ui component, shadcn timeline, tailwind timeline, accessible timeline, order progress, release steps"
+  title="Phone Input Component - Sabuj UI"
+  description="An international phone number input with country search, dialing codes, flags, and shadcn-styled controls."
+  keywords="phone input component, react phone number input, international phone input, country selector, shadcn phone input, tailwind phone input"
   type="article"
 >
   <div class="min-h-screen bg-background text-foreground">
-    <SiteHeader active="timeline" />
+    <SiteHeader active="phone-input" />
 
     <div
       id="components"
@@ -118,7 +132,7 @@ export function OrderTimeline() {
               </a>
               <a
                 href="/components/timeline/"
-                class="rounded-md bg-accent px-2 py-1.5 font-medium text-foreground transition-colors"
+                class="rounded-md px-2 py-1.5 text-muted-foreground transition-colors hover:text-foreground"
               >
                 Timeline
               </a>
@@ -130,7 +144,7 @@ export function OrderTimeline() {
               </a>
               <a
                 href="/components/phone-input/"
-                class="rounded-md px-2 py-1.5 text-muted-foreground transition-colors hover:text-foreground"
+                class="rounded-md bg-accent px-2 py-1.5 font-medium text-foreground transition-colors"
               >
                 Phone Input
               </a>
@@ -207,8 +221,8 @@ export function OrderTimeline() {
                     class="rounded-sm bg-background px-3 py-1.5 shadow-sm transition-all focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
                     role="tab"
                     aria-selected="true"
-                    data-tab-group="timeline"
-                    data-tab-target="timeline-preview-content"
+                    data-tab-group="phone-input"
+                    data-tab-target="phone-input-preview-content"
                   >
                     Preview
                   </button>
@@ -217,8 +231,8 @@ export function OrderTimeline() {
                     class="rounded-sm px-3 py-1.5 text-muted-foreground transition-all hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
                     role="tab"
                     aria-selected="false"
-                    data-tab-group="timeline"
-                    data-tab-target="timeline-code-content"
+                    data-tab-group="phone-input"
+                    data-tab-target="phone-input-code-content"
                   >
                     Code
                   </button>
@@ -228,7 +242,7 @@ export function OrderTimeline() {
                   <button
                     type="button"
                     class="inline-flex h-8 items-center justify-center gap-2 rounded-md border bg-background px-3 text-xs font-medium transition-colors hover:bg-accent"
-                    data-copy-target="timeline-source"
+                    data-copy-target="phone-input-source"
                   >
                     <Copy className="size-3.5" />
                     <span data-button-label>Copy</span>
@@ -236,8 +250,8 @@ export function OrderTimeline() {
                   <button
                     type="button"
                     class="inline-flex h-8 items-center justify-center gap-2 rounded-md border bg-background px-3 text-xs font-medium transition-colors hover:bg-accent"
-                    data-download-target="timeline-source"
-                    data-download-file="timeline.tsx"
+                    data-download-target="phone-input-source"
+                    data-download-file="phone-input.tsx"
                   >
                     <Download className="size-3.5" />
                     <span data-button-label>Download</span>
@@ -245,94 +259,69 @@ export function OrderTimeline() {
                 </div>
               </div>
 
-              <div id="timeline-preview-content" role="tabpanel">
-                <div
-                  class="overflow-hidden rounded-lg border bg-[radial-gradient(circle_at_1px_1px,#e5e5e5_1px,transparent_0)] bg-size-[20px_20px] dark:bg-[radial-gradient(circle_at_1px_1px,#333_1px,transparent_0)]"
-                >
-                  <div class="bg-background/86 p-5 md:p-8">
-                    <div class="space-y-10">
-                      <UITimeline
-                        orientation="horizontal"
-                        className="overflow-x-auto pb-2"
-                      >
-                        <TimelineItem>
-                          <TimelineIndicator status="completed">
-                            <Check className="size-3.5" />
-                          </TimelineIndicator>
-                          <TimelineTitle status="completed"
-                            >Order Placed</TimelineTitle
-                          >
-                        </TimelineItem>
-                        <TimelineSeparator status="completed" />
-                        <TimelineItem>
-                          <TimelineIndicator status="completed">
-                            <Check className="size-3.5" />
-                          </TimelineIndicator>
-                          <TimelineTitle status="completed"
-                            >Confirmed</TimelineTitle
-                          >
-                        </TimelineItem>
-                        <TimelineSeparator status="current" />
-                        <TimelineItem>
-                          <TimelineIndicator status="current">
-                            <Check className="size-3.5" />
-                          </TimelineIndicator>
-                          <TimelineTitle status="current">Shipped</TimelineTitle
-                          >
-                        </TimelineItem>
-                        <TimelineSeparator status="default" />
-                        <TimelineItem>
-                          <TimelineIndicator status="default">
-                            <Check className="size-3.5" />
-                          </TimelineIndicator>
-                          <TimelineTitle status="default"
-                            >Delivered</TimelineTitle
-                          >
-                        </TimelineItem>
-                      </UITimeline>
-
-                      <div class="space-y-6">
-                        <UITimeline orientation="vertical">
-                          <TimelineItem>
-                            <TimelineIndicator status="completed">
-                              <Check className="size-3.5" />
-                            </TimelineIndicator>
-                            <TimelineTitle status="completed"
-                              >Install package</TimelineTitle
-                            >
-                          </TimelineItem>
-                          <TimelineSeparator status="completed" />
-                          <TimelineItem>
-                            <TimelineIndicator status="current">
-                              <Check className="size-3.5" />
-                            </TimelineIndicator>
-                            <TimelineTitle status="current"
-                              >Copy component</TimelineTitle
-                            >
-                          </TimelineItem>
-                          <TimelineSeparator status="default" />
-                          <TimelineItem>
-                            <TimelineIndicator status="default">
-                              <Check className="size-3.5" />
-                            </TimelineIndicator>
-                            <TimelineTitle status="default"
-                              >Customize styles</TimelineTitle
-                            >
-                          </TimelineItem>
-                        </UITimeline>
+              <div id="phone-input-preview-content" role="tabpanel">
+                <div class="overflow-hidden rounded-lg border bg-muted/20">
+                  <div
+                    class="grid gap-6 bg-background/86 p-5 md:grid-cols-2 md:p-8"
+                  >
+                    <div class="space-y-5">
+                      <div>
                         <div
-                          class="max-w-xl rounded-lg border bg-background p-4"
+                          class="mb-2 flex items-center gap-2 text-sm font-semibold"
                         >
-                          <p class="text-sm font-semibold">
-                            Use it for status-heavy UI
-                          </p>
-                          <p
-                            class="mt-2 text-sm leading-6 text-muted-foreground"
-                          >
-                            Timelines work well for checkout, onboarding,
-                            deployment progress, release steps, and audit
-                            trails.
-                          </p>
+                          <Phone className="size-4 text-primary" />
+                          Primary phone
+                        </div>
+                        <UIPhoneInput
+                          defaultCountry="US"
+                          international
+                          value="+14155552671"
+                          onChange={noop}
+                          placeholder="Enter phone number"
+                        />
+                      </div>
+
+                      <div>
+                        <div
+                          class="mb-2 flex items-center gap-2 text-sm font-semibold"
+                        >
+                          <Globe2 className="size-4 text-primary" />
+                          Support line
+                        </div>
+                        <UIPhoneInput
+                          defaultCountry="BD"
+                          international
+                          value="+8801712345678"
+                          onChange={noop}
+                          placeholder="Enter phone number"
+                        />
+                      </div>
+                    </div>
+
+                    <div class="rounded-lg border bg-background p-4">
+                      <p class="text-sm font-semibold">
+                        Country-aware formatting
+                      </p>
+                      <p class="mt-2 text-sm leading-6 text-muted-foreground">
+                        The selector uses a searchable command menu, calling
+                        codes, and flag assets from <code
+                          >react-phone-number-input</code
+                        >.
+                      </p>
+                      <div class="mt-5 space-y-3 text-sm">
+                        <div class="flex items-center justify-between gap-4">
+                          <span class="text-muted-foreground">Format</span>
+                          <code class="rounded-md bg-muted px-2 py-1">
+                            E.164
+                          </code>
+                        </div>
+                        <div class="flex items-center justify-between gap-4">
+                          <span class="text-muted-foreground">Default UI</span>
+                          <span class="font-medium">Dial code + input</span>
+                        </div>
+                        <div class="flex items-center justify-between gap-4">
+                          <span class="text-muted-foreground">Search</span>
+                          <span class="font-medium">Country name</span>
                         </div>
                       </div>
                     </div>
@@ -340,9 +329,9 @@ export function OrderTimeline() {
                 </div>
               </div>
 
-              <div id="timeline-code-content" role="tabpanel" class="hidden">
+              <div id="phone-input-code-content" role="tabpanel" class="hidden">
                 <pre
-                  class="max-h-152 overflow-auto rounded-lg border bg-zinc-950 p-4 text-sm leading-6 text-zinc-100"><code id="timeline-source">{component.source}</code></pre>
+                  class="max-h-152 overflow-auto rounded-lg border bg-zinc-950 p-4 text-sm leading-6 text-zinc-100"><code id="phone-input-source">{component.source}</code></pre>
               </div>
 
               <div class="mt-6 rounded-lg border bg-muted/20 p-5 md:p-6">
@@ -374,10 +363,9 @@ export function OrderTimeline() {
                   <div>
                     <h3 class="mb-3 text-sm font-semibold">Install notes</h3>
                     <p class="text-xs leading-5 text-muted-foreground">
-                      Requires local <code>cn</code> helper, Tailwind CSS variables
-                      from <code>global.css</code>, and <code
-                        >class-variance-authority</code
-                      >.
+                      Requires <code>react-phone-number-input</code>, its flag
+                      data, and the local shadcn-style command, popover, scroll
+                      area, button, and input primitives.
                     </p>
                   </div>
                 </div>
@@ -390,7 +378,7 @@ export function OrderTimeline() {
                 Usage
               </div>
               <pre
-                class="overflow-auto rounded-lg border bg-muted p-4 text-sm leading-6"><code>{timelineExample}</code></pre>
+                class="overflow-auto rounded-lg border bg-muted p-4 text-sm leading-6"><code>{phoneInputExample}</code></pre>
             </section>
 
             <section id="api" class="scroll-mt-24 p-5 md:p-6">
@@ -439,14 +427,13 @@ export function OrderTimeline() {
                 class="grid gap-6 lg:grid-cols-[minmax(0,1fr)_18rem] lg:items-start"
               >
                 <div class="space-y-4">
-                  <p class="text-sm font-medium text-primary">Guide</p>
+                  <p class="text-sm font-medium text-primary">Pattern</p>
                   <h2 class="text-3xl font-semibold">
-                    Documenting a new component
+                    Store normalized phone values
                   </h2>
                   <p class="max-w-2xl text-sm leading-6 text-muted-foreground">
-                    Use <code>docs/component-documentation-guide.md</code> as the
-                    handoff prompt for another AI agent. Future components should
-                    get their own route under <code>/components</code>.
+                    Use the E.164 value from <code>onChange</code> in form state,
+                    then validate or submit it with the rest of your contact fields.
                   </p>
                   <a
                     href="/docs/component-documentation-guide/"
@@ -458,10 +445,10 @@ export function OrderTimeline() {
                 </div>
 
                 <div class="rounded-lg border bg-background p-4 shadow-sm">
-                  <p class="text-sm font-semibold">Separate page pattern</p>
+                  <p class="text-sm font-semibold">Form usage</p>
                   <p class="mt-2 text-sm leading-6 text-muted-foreground">
-                    The home page can stay fast and scannable while each
-                    component page carries the full docs.
+                    Works well for account settings, checkout forms, booking
+                    flows, and support contact details.
                   </p>
                 </div>
               </div>

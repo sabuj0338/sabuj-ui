@@ -1,17 +1,11 @@
 ---
-import {
-  Timeline as UITimeline,
-  TimelineIndicator,
-  TimelineItem,
-  TimelineSeparator,
-  TimelineTitle,
-} from "@/components/ui/timeline"
+import * as UIPaginator from "@/components/ui/paginator"
 import Layout from "@/layouts/main.astro"
 import SiteHeader from "@/components/site-header.astro"
-import timelineCode from "@/components/ui/timeline.tsx?raw"
+import paginatorCode from "@/components/ui/paginator.tsx?raw"
 import {
-  Check,
   Copy,
+  Database,
   Download,
   FileCode2,
   FileText,
@@ -20,83 +14,143 @@ import {
 } from "lucide-react"
 
 const component = {
-  id: "timeline",
-  name: "Timeline",
+  id: "paginator",
+  name: "Paginator",
   status: "Ready",
   description:
-    "A composable timeline primitive for order progress, onboarding flows, release steps, and status-driven UI.",
-  file: "src/components/ui/timeline.tsx",
-  source: timelineCode,
-  exports: [
-    "Timeline",
-    "TimelineItem",
-    "TimelineIndicator",
-    "TimelineSeparator",
-    "TimelineTitle",
+    "A table-friendly pagination control with page links, first and last actions, page size selection, and quick page jumps.",
+  file: "src/components/ui/paginator.tsx",
+  source: paginatorCode,
+  exports: ["Paginator", "PaginatorProps"],
+  dependencies: [
+    "lucide-react",
+    "@/components/ui/pagination",
+    "@/components/ui/select",
+    "@/components/ui/button",
+    "@/components/ui/input",
   ],
-  dependencies: ["class-variance-authority", "lucide-react", "@/lib/utils"],
   props: [
     {
-      name: "orientation",
-      type: '"horizontal" | "vertical"',
-      defaultValue: '"horizontal"',
-      description: "Changes the layout direction for the entire timeline.",
+      name: "currentPage",
+      type: "number",
+      defaultValue: "-",
+      description: "The currently selected page using a one-based page index.",
     },
     {
-      name: "status",
-      type: '"default" | "completed" | "current"',
-      defaultValue: '"default"',
-      description:
-        "Controls indicator, title, and separator styling for each timeline state.",
-    },
-    {
-      name: "className",
-      type: "string",
+      name: "totalPages",
+      type: "number",
       defaultValue: "-",
       description:
-        "Extends the generated Tailwind classes through the local cn utility.",
+        "The number of available pages. The component returns null when this is 0 or lower.",
+    },
+    {
+      name: "totalItems",
+      type: "number",
+      defaultValue: "-",
+      description:
+        "Enables item range text when used with showItemCount and pageSize.",
+    },
+    {
+      name: "pageSize",
+      type: "number",
+      defaultValue: "10",
+      description:
+        "The active number of rows per page used for item counts and selector value.",
+    },
+    {
+      name: "pageSizeOptions",
+      type: "number[]",
+      defaultValue: "[10, 20, 50, 100]",
+      description: "Options rendered in the rows-per-page selector.",
+    },
+    {
+      name: "onPageChange",
+      type: "(pageNumber: number) => void",
+      defaultValue: "-",
+      description:
+        "Called when the user selects a page, previous/next, first/last, or a valid go-to value.",
+    },
+    {
+      name: "onPageSizeChange",
+      type: "(pageSize: number) => void",
+      defaultValue: "-",
+      description:
+        "Called when the page-size selector changes. Required to show that selector.",
+    },
+    {
+      name: "showPreviousNext",
+      type: "boolean",
+      defaultValue: "true",
+      description: "Shows or hides previous and next pagination actions.",
+    },
+    {
+      name: "showFirstLast",
+      type: "boolean",
+      defaultValue: "false",
+      description: "Adds icon buttons for jumping to the first and last pages.",
+    },
+    {
+      name: "showPageSizeSelector",
+      type: "boolean",
+      defaultValue: "false",
+      description:
+        "Shows the rows-per-page select when onPageSizeChange exists.",
+    },
+    {
+      name: "showGoToPage",
+      type: "boolean",
+      defaultValue: "false",
+      description:
+        "Shows a numeric input for jumping to a page on enter or blur.",
+    },
+    {
+      name: "showItemCount",
+      type: "boolean",
+      defaultValue: "false",
+      description: "Shows the current item range when totalItems is provided.",
+    },
+    {
+      name: "compact",
+      type: "boolean",
+      defaultValue: "false",
+      description: "Replaces numbered page links with a compact page summary.",
     },
   ],
 }
 
-const timelineExample = String.raw`import {
-  Timeline,
-  TimelineIndicator,
-  TimelineItem,
-  TimelineSeparator,
-  TimelineTitle,
-} from "@/components/ui/timeline"
-import { Check } from "lucide-react"
+const noop = () => undefined
 
-export function OrderTimeline() {
+const paginatorExample = String.raw`import Paginator from "@/components/ui/paginator"
+
+export function UsersPagination() {
+  const [page, setPage] = React.useState(3)
+  const [pageSize, setPageSize] = React.useState(20)
+
   return (
-    <Timeline orientation="horizontal">
-      <TimelineItem>
-        <TimelineIndicator status="completed">
-          <Check />
-        </TimelineIndicator>
-        <TimelineTitle status="completed">Order Placed</TimelineTitle>
-      </TimelineItem>
-      <TimelineSeparator status="completed" />
-      <TimelineItem>
-        <TimelineIndicator status="current">
-          <Check />
-        </TimelineIndicator>
-        <TimelineTitle status="current">Shipped</TimelineTitle>
-      </TimelineItem>
-    </Timeline>
+    <Paginator
+      currentPage={page}
+      totalPages={12}
+      totalItems={238}
+      pageSize={pageSize}
+      onPageChange={setPage}
+      onPageSizeChange={setPageSize}
+      showFirstLast
+      showPageSizeSelector
+      showGoToPage
+      showItemCount
+    />
   )
 }`
 ---
 
 <Layout
-  title="Timeline Component - Sabuj UI"
-  description="A composable timeline primitive for order progress, onboarding flows, release steps, and status-driven UI."
-  keywords="timeline component, react timeline, ui component, shadcn timeline, tailwind timeline, accessible timeline, order progress, release steps"
+  title="Paginator Component - Sabuj UI"
+  description="A table-friendly pagination control with page links, first and last actions, page size selection, and quick page jumps."
+  keywords="paginator component, react pagination, table pagination, shadcn pagination, tailwind pagination, page size selector"
   type="article"
 >
   <div class="min-h-screen bg-background text-foreground">
-    <SiteHeader active="timeline" />
+    <SiteHeader active="paginator" />
 
     <div
       id="components"
@@ -118,13 +172,13 @@ export function OrderTimeline() {
               </a>
               <a
                 href="/components/timeline/"
-                class="rounded-md bg-accent px-2 py-1.5 font-medium text-foreground transition-colors"
+                class="rounded-md px-2 py-1.5 text-muted-foreground transition-colors hover:text-foreground"
               >
                 Timeline
               </a>
               <a
                 href="/components/paginator/"
-                class="rounded-md px-2 py-1.5 text-muted-foreground transition-colors hover:text-foreground"
+                class="rounded-md bg-accent px-2 py-1.5 font-medium text-foreground transition-colors"
               >
                 Paginator
               </a>
@@ -207,8 +261,8 @@ export function OrderTimeline() {
                     class="rounded-sm bg-background px-3 py-1.5 shadow-sm transition-all focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
                     role="tab"
                     aria-selected="true"
-                    data-tab-group="timeline"
-                    data-tab-target="timeline-preview-content"
+                    data-tab-group="paginator"
+                    data-tab-target="paginator-preview-content"
                   >
                     Preview
                   </button>
@@ -217,8 +271,8 @@ export function OrderTimeline() {
                     class="rounded-sm px-3 py-1.5 text-muted-foreground transition-all hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
                     role="tab"
                     aria-selected="false"
-                    data-tab-group="timeline"
-                    data-tab-target="timeline-code-content"
+                    data-tab-group="paginator"
+                    data-tab-target="paginator-code-content"
                   >
                     Code
                   </button>
@@ -228,7 +282,7 @@ export function OrderTimeline() {
                   <button
                     type="button"
                     class="inline-flex h-8 items-center justify-center gap-2 rounded-md border bg-background px-3 text-xs font-medium transition-colors hover:bg-accent"
-                    data-copy-target="timeline-source"
+                    data-copy-target="paginator-source"
                   >
                     <Copy className="size-3.5" />
                     <span data-button-label>Copy</span>
@@ -236,8 +290,8 @@ export function OrderTimeline() {
                   <button
                     type="button"
                     class="inline-flex h-8 items-center justify-center gap-2 rounded-md border bg-background px-3 text-xs font-medium transition-colors hover:bg-accent"
-                    data-download-target="timeline-source"
-                    data-download-file="timeline.tsx"
+                    data-download-target="paginator-source"
+                    data-download-file="paginator.tsx"
                   >
                     <Download className="size-3.5" />
                     <span data-button-label>Download</span>
@@ -245,104 +299,63 @@ export function OrderTimeline() {
                 </div>
               </div>
 
-              <div id="timeline-preview-content" role="tabpanel">
-                <div
-                  class="overflow-hidden rounded-lg border bg-[radial-gradient(circle_at_1px_1px,#e5e5e5_1px,transparent_0)] bg-size-[20px_20px] dark:bg-[radial-gradient(circle_at_1px_1px,#333_1px,transparent_0)]"
-                >
-                  <div class="bg-background/86 p-5 md:p-8">
-                    <div class="space-y-10">
-                      <UITimeline
-                        orientation="horizontal"
-                        className="overflow-x-auto pb-2"
+              <div id="paginator-preview-content" role="tabpanel">
+                <div class="overflow-hidden rounded-lg border bg-muted/20">
+                  <div class="space-y-6 bg-background/86 p-5 md:p-8">
+                    <div class="rounded-lg border bg-background">
+                      <div
+                        class="grid grid-cols-[1.4fr_0.8fr_0.8fr] gap-4 border-b px-4 py-3 text-xs font-medium text-muted-foreground"
                       >
-                        <TimelineItem>
-                          <TimelineIndicator status="completed">
-                            <Check className="size-3.5" />
-                          </TimelineIndicator>
-                          <TimelineTitle status="completed"
-                            >Order Placed</TimelineTitle
-                          >
-                        </TimelineItem>
-                        <TimelineSeparator status="completed" />
-                        <TimelineItem>
-                          <TimelineIndicator status="completed">
-                            <Check className="size-3.5" />
-                          </TimelineIndicator>
-                          <TimelineTitle status="completed"
-                            >Confirmed</TimelineTitle
-                          >
-                        </TimelineItem>
-                        <TimelineSeparator status="current" />
-                        <TimelineItem>
-                          <TimelineIndicator status="current">
-                            <Check className="size-3.5" />
-                          </TimelineIndicator>
-                          <TimelineTitle status="current">Shipped</TimelineTitle
-                          >
-                        </TimelineItem>
-                        <TimelineSeparator status="default" />
-                        <TimelineItem>
-                          <TimelineIndicator status="default">
-                            <Check className="size-3.5" />
-                          </TimelineIndicator>
-                          <TimelineTitle status="default"
-                            >Delivered</TimelineTitle
-                          >
-                        </TimelineItem>
-                      </UITimeline>
-
-                      <div class="space-y-6">
-                        <UITimeline orientation="vertical">
-                          <TimelineItem>
-                            <TimelineIndicator status="completed">
-                              <Check className="size-3.5" />
-                            </TimelineIndicator>
-                            <TimelineTitle status="completed"
-                              >Install package</TimelineTitle
-                            >
-                          </TimelineItem>
-                          <TimelineSeparator status="completed" />
-                          <TimelineItem>
-                            <TimelineIndicator status="current">
-                              <Check className="size-3.5" />
-                            </TimelineIndicator>
-                            <TimelineTitle status="current"
-                              >Copy component</TimelineTitle
-                            >
-                          </TimelineItem>
-                          <TimelineSeparator status="default" />
-                          <TimelineItem>
-                            <TimelineIndicator status="default">
-                              <Check className="size-3.5" />
-                            </TimelineIndicator>
-                            <TimelineTitle status="default"
-                              >Customize styles</TimelineTitle
-                            >
-                          </TimelineItem>
-                        </UITimeline>
-                        <div
-                          class="max-w-xl rounded-lg border bg-background p-4"
-                        >
-                          <p class="text-sm font-semibold">
-                            Use it for status-heavy UI
-                          </p>
-                          <p
-                            class="mt-2 text-sm leading-6 text-muted-foreground"
-                          >
-                            Timelines work well for checkout, onboarding,
-                            deployment progress, release steps, and audit
-                            trails.
-                          </p>
-                        </div>
+                        <span>Customer</span>
+                        <span>Status</span>
+                        <span class="text-right">Total</span>
                       </div>
+                      {
+                        ["Acme Co.", "Northstar Labs", "GreenField"].map(
+                          (name, index) => (
+                            <div class="grid grid-cols-[1.4fr_0.8fr_0.8fr] gap-4 border-b px-4 py-3 text-sm last:border-b-0">
+                              <span class="font-medium">{name}</span>
+                              <span class="text-muted-foreground">
+                                {index === 1 ? "Review" : "Active"}
+                              </span>
+                              <span class="text-right font-medium">
+                                ${["4,280", "1,940", "7,125"][index]}
+                              </span>
+                            </div>
+                          )
+                        )
+                      }
+                    </div>
+
+                    <UIPaginator.default
+                      currentPage={3}
+                      totalPages={12}
+                      totalItems={238}
+                      pageSize={20}
+                      onPageChange={noop}
+                      onPageSizeChange={noop}
+                      showFirstLast
+                      showPageSizeSelector
+                      showGoToPage
+                      showItemCount
+                    />
+
+                    <div class="border-t pt-6">
+                      <UIPaginator.default
+                        currentPage={8}
+                        totalPages={24}
+                        onPageChange={noop}
+                        showFirstLast
+                        compact
+                      />
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div id="timeline-code-content" role="tabpanel" class="hidden">
+              <div id="paginator-code-content" role="tabpanel" class="hidden">
                 <pre
-                  class="max-h-152 overflow-auto rounded-lg border bg-zinc-950 p-4 text-sm leading-6 text-zinc-100"><code id="timeline-source">{component.source}</code></pre>
+                  class="max-h-152 overflow-auto rounded-lg border bg-zinc-950 p-4 text-sm leading-6 text-zinc-100"><code id="paginator-source">{component.source}</code></pre>
               </div>
 
               <div class="mt-6 rounded-lg border bg-muted/20 p-5 md:p-6">
@@ -374,10 +387,10 @@ export function OrderTimeline() {
                   <div>
                     <h3 class="mb-3 text-sm font-semibold">Install notes</h3>
                     <p class="text-xs leading-5 text-muted-foreground">
-                      Requires local <code>cn</code> helper, Tailwind CSS variables
-                      from <code>global.css</code>, and <code
-                        >class-variance-authority</code
-                      >.
+                      Built from the local pagination, select, button, and input
+                      primitives. Keep <code>pageSize</code>, <code
+                        >totalItems</code
+                      >, and external table state in sync.
                     </p>
                   </div>
                 </div>
@@ -390,7 +403,7 @@ export function OrderTimeline() {
                 Usage
               </div>
               <pre
-                class="overflow-auto rounded-lg border bg-muted p-4 text-sm leading-6"><code>{timelineExample}</code></pre>
+                class="overflow-auto rounded-lg border bg-muted p-4 text-sm leading-6"><code>{paginatorExample}</code></pre>
             </section>
 
             <section id="api" class="scroll-mt-24 p-5 md:p-6">
@@ -439,14 +452,13 @@ export function OrderTimeline() {
                 class="grid gap-6 lg:grid-cols-[minmax(0,1fr)_18rem] lg:items-start"
               >
                 <div class="space-y-4">
-                  <p class="text-sm font-medium text-primary">Guide</p>
+                  <p class="text-sm font-medium text-primary">Pattern</p>
                   <h2 class="text-3xl font-semibold">
-                    Documenting a new component
+                    Connect it to table state
                   </h2>
                   <p class="max-w-2xl text-sm leading-6 text-muted-foreground">
-                    Use <code>docs/component-documentation-guide.md</code> as the
-                    handoff prompt for another AI agent. Future components should
-                    get their own route under <code>/components</code>.
+                    Paginator is controlled. Store page and page size in the
+                    parent component, then fetch or slice data from that state.
                   </p>
                   <a
                     href="/docs/component-documentation-guide/"
@@ -458,10 +470,15 @@ export function OrderTimeline() {
                 </div>
 
                 <div class="rounded-lg border bg-background p-4 shadow-sm">
-                  <p class="text-sm font-semibold">Separate page pattern</p>
-                  <p class="mt-2 text-sm leading-6 text-muted-foreground">
-                    The home page can stay fast and scannable while each
-                    component page carries the full docs.
+                  <div
+                    class="mb-3 flex items-center gap-2 text-sm font-semibold"
+                  >
+                    <Database className="size-4 text-primary" />
+                    Data views
+                  </div>
+                  <p class="text-sm leading-6 text-muted-foreground">
+                    Best for tables, search results, audit logs, and admin lists
+                    with server-driven pagination.
                   </p>
                 </div>
               </div>

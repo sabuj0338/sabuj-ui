@@ -1,0 +1,104 @@
+---
+import { BookOpen, Layers3, Moon, Sun } from "lucide-react"
+
+interface Props {
+  active?: "components" | "timeline" | "paginator" | "phone-input" | "guide"
+}
+
+const { active = "components" } = Astro.props
+
+const headerClass =
+  "fixed top-0 z-50 w-full border-b border-transparent bg-transparent transition-all duration-300"
+
+const linkClass = (id: Props["active"]) =>
+  active === id
+    ? "rounded-md bg-accent px-3 py-2 text-sm font-medium text-foreground transition-colors"
+    : "rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+---
+
+<header id="main-header" class={headerClass}>
+  <div
+    class="mx-auto flex h-14 max-w-7xl items-center justify-between gap-4 px-5 lg:px-8"
+  >
+    <a href="/" class="flex min-w-0 items-center gap-3">
+      <span
+        class="grid size-8 shrink-0 place-items-center rounded-md bg-foreground text-background"
+      >
+        <Layers3 className="size-4" />
+      </span>
+      <span class="truncate text-sm font-semibold">Sabuj UI</span>
+    </a>
+
+    <nav class="hidden items-center gap-1 md:flex" aria-label="Top navigation">
+      <a href="/#components" class={linkClass("components")}>Components</a>
+      <a href="/components/timeline/" class={linkClass("timeline")}>
+        Timeline
+      </a>
+      <a href="/components/paginator/" class={linkClass("paginator")}>
+        Paginator
+      </a>
+      <a href="/components/phone-input/" class={linkClass("phone-input")}>
+        Phone Input
+      </a>
+      <a href="/docs/component-documentation-guide/" class={linkClass("guide")}>
+        Guide
+      </a>
+    </nav>
+
+    <div class="flex items-center gap-2">
+      <button
+        id="theme-toggle"
+        type="button"
+        class="inline-flex h-9 w-9 items-center justify-center rounded-md border bg-background text-sm font-medium transition-colors hover:bg-accent focus:outline-none"
+        aria-label="Toggle theme"
+      >
+        <Sun
+          className="h-4 w-4 scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90"
+        />
+        <Moon
+          className="absolute h-4 w-4 scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0"
+        />
+      </button>
+      <a
+        href="/docs/component-documentation-guide/"
+        class="inline-flex h-9 items-center justify-center gap-2 rounded-md border bg-background px-3 text-sm font-medium transition-colors hover:bg-accent"
+      >
+        <BookOpen className="size-4" />
+        <span class="hidden sm:inline">Guide</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<script>
+  const init = () => {
+    const header = document.getElementById("main-header")
+    if (!header) return
+
+    const updateHeader = () => {
+      if (window.scrollY > 0) {
+        header.classList.remove("border-transparent", "bg-transparent")
+        header.classList.add(
+          "border-border",
+          "bg-background/95",
+          "backdrop-blur",
+          "supports-[backdrop-filter]:bg-background/60"
+        )
+      } else {
+        header.classList.add("border-transparent", "bg-transparent")
+        header.classList.remove(
+          "border-border",
+          "bg-background/95",
+          "backdrop-blur",
+          "supports-[backdrop-filter]:bg-background/60"
+        )
+      }
+    }
+
+    window.addEventListener("scroll", updateHeader, { passive: true })
+    updateHeader()
+  }
+
+  init()
+  document.addEventListener("astro:after-swap", init)
+</script>

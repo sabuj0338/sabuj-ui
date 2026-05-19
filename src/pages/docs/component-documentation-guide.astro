@@ -1,12 +1,7 @@
 ---
+import SiteHeader from "@/components/site-header.astro"
 import Layout from "@/layouts/main.astro"
-import {
-  ArrowLeft,
-  CheckCircle2,
-  FileCode2,
-  ListChecks,
-  Terminal,
-} from "lucide-react"
+import { CheckCircle2, FileCode2, ListChecks, Terminal } from "lucide-react"
 ---
 
 <Layout
@@ -14,24 +9,11 @@ import {
   description="A repeatable guide for documenting new custom React components in Sabuj UI."
 >
   <div
-    class="min-h-screen bg-[linear-gradient(to_bottom,#ffffff_0%,#fafafa_28rem,#ffffff_100%)] dark:bg-background"
+    class="min-h-screen bg-[linear-gradient(to_bottom,#ffffff_0%,#fafafa_28rem,#ffffff_100%)] dark:bg-background dark:bg-none"
   >
-    <header class="border-b bg-background/90 backdrop-blur-xl">
-      <div
-        class="mx-auto flex h-14 max-w-5xl items-center justify-between px-5 lg:px-8"
-      >
-        <a
-          href="/"
-          class="inline-flex h-9 items-center justify-center gap-2 rounded-md border bg-background px-3 text-sm font-medium transition-colors hover:bg-accent"
-        >
-          <ArrowLeft className="size-4" />
-          Back to overview
-        </a>
-        <span class="text-sm font-semibold">Sabuj UI</span>
-      </div>
-    </header>
+    <SiteHeader active="guide" />
 
-    <main class="mx-auto max-w-5xl px-5 py-10 lg:px-8">
+    <main class="mx-auto max-w-5xl px-5 py-10 pt-24 lg:px-8">
       <article class="space-y-8">
         <header class="max-w-3xl space-y-4">
           <div

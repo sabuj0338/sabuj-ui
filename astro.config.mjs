@@ -4,11 +4,17 @@ import tailwindcss from "@tailwindcss/vite"
 import { defineConfig } from "astro/config"
 import react from "@astrojs/react"
 
+import cloudflare from "@astrojs/cloudflare";
+
 // https://astro.build/config
 export default defineConfig({
-  site: "https://sabujui.com", // You can change this to your actual production domain
+  // You can change this to your actual production domain
+  site: "https://sabujui.com",
+
   vite: {
     plugins: [tailwindcss()],
   },
+
   integrations: [react()],
+  adapter: cloudflare()
 })

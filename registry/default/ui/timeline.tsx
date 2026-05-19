@@ -1,7 +1,7 @@
-import { cva, type VariantProps } from 'class-variance-authority'
-import * as React from 'react'
+import { cva, type VariantProps } from 'class-variance-authority';
+import * as React from 'react';
 
-import { cn } from '@/lib/utils'
+import { cn } from '@/lib/utils';
 
 const timelineVariants = cva('flex w-full items-start', {
   variants: {
@@ -108,5 +108,5 @@ function TimelineSeparator({ className, ...props }: React.ComponentProps<'div'>)
 
 export {
   Timeline, TimelineIndicator, timelineIndicatorVariants, TimelineItem, TimelineSeparator, TimelineTitle, timelineTitleVariants, timelineVariants
-}
+};
 

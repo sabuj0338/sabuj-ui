@@ -1,0 +1,82 @@
+---
+import { PanelLeft } from "lucide-react"
+
+interface Props {
+  /** The id of the current active component page, e.g. "data-table" */
+  active: string
+  /**
+   * On-this-page anchor links to show in the second nav group.
+   * Defaults to the standard Preview / Usage / API reference set.
+   */
+  onThisPage?: Array<{ href: string; label: string }>
+}
+
+const { active, onThisPage } = Astro.props
+
+const defaultOnThisPage = [
+  { href: "#preview", label: "Preview" },
+  { href: "#usage", label: "Usage" },
+  { href: "#api", label: "API reference" },
+]
+
+const pageLinks = onThisPage ?? defaultOnThisPage
+
+const navItems = [
+  { href: `${import.meta.env.BASE_URL}#components`, label: "Overview", id: "overview" },
+  { href: `${import.meta.env.BASE_URL}components/timeline/`, label: "Timeline", id: "timeline" },
+  { href: `${import.meta.env.BASE_URL}components/paginator/`, label: "Paginator", id: "paginator" },
+  { href: `${import.meta.env.BASE_URL}components/phone-input/`, label: "Phone Input", id: "phone-input" },
+  { href: `${import.meta.env.BASE_URL}components/data-table/`, label: "Data Table", id: "data-table" },
+  { href: `${import.meta.env.BASE_URL}components/dynamic-search-controls/`, label: "Dynamic Search", id: "dynamic-search-controls" },
+  { href: `${import.meta.env.BASE_URL}docs/component-documentation-guide/`, label: "Guide", id: "guide" },
+]
+---
+
+<aside class="lg:sticky lg:top-20 lg:h-[calc(100vh-6rem)]">
+  <nav aria-label="Documentation navigation" class="space-y-8 text-sm">
+    <div>
+      <div class="mb-3 flex items-center gap-2 font-semibold">
+        <PanelLeft className="size-4 text-primary" />
+        Components
+      </div>
+      <div class="flex flex-col gap-1 border-l-2 border-border/50 pl-3">
+        {
+          navItems.map((item) =>
+            item.id === active ? (
+              <a
+                href={item.href}
+                class="rounded-md bg-accent px-2 py-1.5 font-medium text-foreground transition-colors"
+                aria-current="page"
+              >
+                {item.label}
+              </a>
+            ) : (
+              <a
+                href={item.href}
+                class="rounded-md px-2 py-1.5 text-muted-foreground transition-colors hover:text-foreground"
+              >
+                {item.label}
+              </a>
+            )
+          )
+        }
+      </div>
+    </div>
+
+    <div class="hidden lg:block">
+      <p class="mb-3 font-semibold">On this page</p>
+      <div class="flex flex-col gap-1 border-l-2 border-border/50 pl-3">
+        {
+          pageLinks.map((link) => (
+            <a
+              href={link.href}
+              class="block rounded-md px-2 py-1.5 text-muted-foreground hover:text-foreground"
+            >
+              {link.label}
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </nav>
+</aside>

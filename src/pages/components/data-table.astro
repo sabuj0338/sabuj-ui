@@ -1,122 +1,198 @@
 ---
-import { PhoneInput as UIPhoneInput } from "@/components/ui/phone-input"
+import * as UIDataTable from "@/components/ui/DataTable"
 import Layout from "@/layouts/main.astro"
 import SiteHeader from "@/components/site-header.astro"
 import DocSidebar from "@/components/DocSidebar.astro"
-import phoneInputCode from "@/components/ui/phone-input.tsx?raw"
+import dataTableCode from "@/components/ui/DataTable.tsx?raw"
 import {
   Copy,
+  Database,
   Download,
   FileCode2,
   FileText,
-  Globe2,
-  Phone,
   Terminal,
 } from "lucide-react"
 
 const component = {
-  id: "phone-input",
-  name: "Phone Input",
+  id: "data-table",
+  name: "DataTable",
   status: "Ready",
   description:
-    "An international phone number input with country search, dialing codes, flags, and shadcn-styled controls.",
-  file: "src/components/ui/phone-input.tsx",
-  source: phoneInputCode,
-  exports: ["PhoneInput"],
+    "A powerful, feature-rich data table component supporting selection, custom pagination, sorting, pinning, and localization.",
+  file: "src/components/ui/DataTable.tsx",
+  source: dataTableCode,
+  exports: ["default (DataTable)", "DataTableProps"],
   dependencies: [
-    "react-phone-number-input",
+    "@tanstack/react-table",
     "lucide-react",
-    "@/components/ui/button",
-    "@/components/ui/command",
-    "@/components/ui/input",
-    "@/components/ui/popover",
-    "@/components/ui/scroll-area",
-    "@/lib/utils",
+    "@/components/ui/table",
+    "@/components/ui/paginator",
   ],
   props: [
     {
-      name: "value",
-      type: "RPNInput.Value",
+      name: "columns",
+      type: "ColumnDef<TData, TValue>[]",
       defaultValue: "-",
-      description:
-        "The controlled E.164 phone number value passed through react-phone-number-input.",
+      description: "The Column definitions from @tanstack/react-table.",
     },
     {
-      name: "onChange",
-      type: "(value: RPNInput.Value) => void",
+      name: "data",
+      type: "TData[]",
       defaultValue: "-",
-      description:
-        "Called whenever the number changes. Empty or invalid values are normalized to an empty string.",
+      description: "The array of records to display in the table.",
     },
     {
-      name: "defaultCountry",
-      type: "RPNInput.Country",
+      name: "rowSelection",
+      type: "RowSelectionState",
       defaultValue: "-",
-      description:
-        "Sets the initial country for formatting and calling-code selection.",
+      description: "State of selected rows in the table.",
     },
     {
-      name: "international",
-      type: "boolean",
+      name: "onRowSelectionChange",
+      type: "OnChangeFn<RowSelectionState>",
       defaultValue: "-",
-      description:
-        "Uses international formatting behavior from react-phone-number-input.",
+      description: "Callback triggered when a row selection changes.",
     },
     {
-      name: "placeholder",
-      type: "string",
+      name: "pagination",
+      type: "PaginatorProps",
       defaultValue: "-",
-      description: "Placeholder text for the phone number input.",
+      description: "Optional properties passed to render the paginator footer.",
     },
     {
-      name: "disabled",
+      name: "isLoading",
       type: "boolean",
       defaultValue: "false",
-      description: "Disables the country selector and input field.",
+      description: "Shows a spin loader in the table body when true.",
     },
     {
-      name: "className",
+      name: "sorting",
+      type: "SortingState",
+      defaultValue: "-",
+      description: "The active sorting state of the table.",
+    },
+    {
+      name: "setSorting",
+      type: "(data: SortingState) => void",
+      defaultValue: "-",
+      description: "Callback to update sorting state.",
+    },
+    {
+      name: "onRowClick",
+      type: "(row: TData) => void",
+      defaultValue: "-",
+      description: "Callback triggered when clicking on a row.",
+    },
+    {
+      name: "rowLink",
       type: "string",
       defaultValue: "-",
       description:
-        "Extends the wrapper class list through the local cn helper.",
+        "An optional template link (e.g. /users/_link_) that makes the row clickable.",
+    },
+    {
+      name: "headerTopRounded",
+      type: "boolean",
+      defaultValue: "false",
+      description: "Applies rounded borders to the top corners of the header.",
+    },
+    {
+      name: "emptyComponent",
+      type: "React.ReactNode",
+      defaultValue: "-",
+      description: "Custom UI component displayed when there is no data.",
+    },
+    {
+      name: "locale",
+      type: "string",
+      defaultValue: "'en'",
+      description: "Locale configuration ('en' | 'bn') for localized numbers.",
+    },
+    {
+      name: "noDataFoundText",
+      type: "string",
+      defaultValue: "'No data found'",
+      description: "Custom localized empty message.",
+    },
+    {
+      name: "rowsSelectedText",
+      type: "string",
+      defaultValue: "'rows selected'",
+      description: "Custom localized rows selection footer label.",
+    },
+    {
+      name: "ofText",
+      type: "string",
+      defaultValue: "'of'",
+      description: "Custom localized 'of' footer label.",
     },
   ],
 }
 
-const noop = () => undefined
+const mockColumns = [
+  {
+    accessorKey: "status",
+    header: "Status",
+  },
+  {
+    accessorKey: "email",
+    header: "Email",
+  },
+  {
+    accessorKey: "amount",
+    header: "Amount",
+  },
+]
 
-const phoneInputExample = String.raw`import { PhoneInput } from "@/components/ui/phone-input"
+const mockData = [
+  { id: 1, status: "Success", email: "ken99@yahoo.com", amount: "$316.00" },
+  { id: 2, status: "Success", email: "abe45@gmail.com", amount: "$242.00" },
+  {
+    id: 3,
+    status: "Processing",
+    email: "monserrat44@gmail.com",
+    amount: "$837.50",
+  },
+]
 
-export function ContactPhoneField() {
-  const [phone, setPhone] = React.useState("")
+const dataTableExample = String.raw`import DataTable from "@/components/ui/DataTable"
 
+const columns = [
+  { accessorKey: "status", header: "Status" },
+  { accessorKey: "email", header: "Email" },
+  { accessorKey: "amount", header: "Amount" }
+]
+
+const data = [
+  { id: "1", status: "Success", email: "user@example.com", amount: "$100" }
+]
+
+export function TableDemo() {
   return (
-    <PhoneInput
-      defaultCountry="US"
-      international
-      value={phone}
-      onChange={setPhone}
-      placeholder="Enter phone number"
+    <DataTable
+      columns={columns}
+      data={data}
+      headerTopRounded
+      locale="en"
     />
   )
 }`
 ---
 
 <Layout
-  title="Phone Input Component - Sabuj UI"
-  description="An international phone number input with country search, dialing codes, flags, and shadcn-styled controls."
-  keywords="phone input component, react phone number input, international phone input, country selector, shadcn phone input, tailwind phone input"
+  title="DataTable Component - Sabuj UI"
+  description="A premium collection of reusable, beautiful, and accessible React components built with Astro, Tailwind CSS, and shadcn/ui conventions."
+  keywords="data table component, react table, tanstack table, shadcn table, tailwind table, localized table"
   type="article"
 >
   <div class="min-h-screen bg-background text-foreground">
-    <SiteHeader active="phone-input" />
+    <SiteHeader active="data-table" />
 
     <div
       id="components"
       class="mx-auto grid max-w-7xl gap-8 px-5 pt-24 lg:grid-cols-[17rem_minmax(0,1fr)] lg:px-8"
     >
-      <DocSidebar active="phone-input" />
+      <DocSidebar active="data-table" />
 
       <main class="min-w-0">
         <section class="mb-8 space-y-4">
@@ -156,8 +232,8 @@ export function ContactPhoneField() {
                     class="rounded-sm bg-background px-3 py-1.5 shadow-sm transition-all focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
                     role="tab"
                     aria-selected="true"
-                    data-tab-group="phone-input"
-                    data-tab-target="phone-input-preview-content"
+                    data-tab-group="data-table"
+                    data-tab-target="data-table-preview-content"
                   >
                     Preview
                   </button>
@@ -166,8 +242,8 @@ export function ContactPhoneField() {
                     class="rounded-sm px-3 py-1.5 text-muted-foreground transition-all hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
                     role="tab"
                     aria-selected="false"
-                    data-tab-group="phone-input"
-                    data-tab-target="phone-input-code-content"
+                    data-tab-group="data-table"
+                    data-tab-target="data-table-code-content"
                   >
                     Code
                   </button>
@@ -177,7 +253,7 @@ export function ContactPhoneField() {
                   <button
                     type="button"
                     class="inline-flex h-8 items-center justify-center gap-2 rounded-md border bg-background px-3 text-xs font-medium transition-colors hover:bg-accent"
-                    data-copy-target="phone-input-source"
+                    data-copy-target="data-table-source"
                   >
                     <Copy className="size-3.5" />
                     <span data-button-label>Copy</span>
@@ -185,8 +261,8 @@ export function ContactPhoneField() {
                   <button
                     type="button"
                     class="inline-flex h-8 items-center justify-center gap-2 rounded-md border bg-background px-3 text-xs font-medium transition-colors hover:bg-accent"
-                    data-download-target="phone-input-source"
-                    data-download-file="phone-input.tsx"
+                    data-download-target="data-table-source"
+                    data-download-file="DataTable.tsx"
                   >
                     <Download className="size-3.5" />
                     <span data-button-label>Download</span>
@@ -194,79 +270,28 @@ export function ContactPhoneField() {
                 </div>
               </div>
 
-              <div id="phone-input-preview-content" role="tabpanel">
+              <div id="data-table-preview-content" role="tabpanel">
                 <div class="overflow-hidden rounded-lg border bg-muted/20">
-                  <div
-                    class="grid gap-6 bg-background/86 p-5 md:grid-cols-2 md:p-8"
-                  >
-                    <div class="space-y-5">
-                      <div>
-                        <div
-                          class="mb-2 flex items-center gap-2 text-sm font-semibold"
-                        >
-                          <Phone className="size-4 text-primary" />
-                          Primary phone
-                        </div>
-                        <UIPhoneInput
-                          defaultCountry="US"
-                          international
-                          value="+14155552671"
-                          onChange={noop}
-                          placeholder="Enter phone number"
-                        />
-                      </div>
-
-                      <div>
-                        <div
-                          class="mb-2 flex items-center gap-2 text-sm font-semibold"
-                        >
-                          <Globe2 className="size-4 text-primary" />
-                          Support line
-                        </div>
-                        <UIPhoneInput
-                          defaultCountry="BD"
-                          international
-                          value="+8801712345678"
-                          onChange={noop}
-                          placeholder="Enter phone number"
-                        />
-                      </div>
-                    </div>
-
-                    <div class="rounded-lg border bg-background p-4">
-                      <p class="text-sm font-semibold">
-                        Country-aware formatting
-                      </p>
-                      <p class="mt-2 text-sm leading-6 text-muted-foreground">
-                        The selector uses a searchable command menu, calling
-                        codes, and flag assets from <code
-                          >react-phone-number-input</code
-                        >.
-                      </p>
-                      <div class="mt-5 space-y-3 text-sm">
-                        <div class="flex items-center justify-between gap-4">
-                          <span class="text-muted-foreground">Format</span>
-                          <code class="rounded-md bg-muted px-2 py-1">
-                            E.164
-                          </code>
-                        </div>
-                        <div class="flex items-center justify-between gap-4">
-                          <span class="text-muted-foreground">Default UI</span>
-                          <span class="font-medium">Dial code + input</span>
-                        </div>
-                        <div class="flex items-center justify-between gap-4">
-                          <span class="text-muted-foreground">Search</span>
-                          <span class="font-medium">Country name</span>
-                        </div>
-                      </div>
-                    </div>
+                  <div class="space-y-6 bg-background p-5 md:p-8">
+                    <UIDataTable.default
+                      columns={mockColumns}
+                      data={mockData}
+                      locale="en"
+                      pagination={{
+                        currentPage: 1,
+                        totalPages: 3,
+                        totalItems: 8,
+                        pageSize: 3,
+                        onPageChange: () => undefined,
+                      }}
+                    />
                   </div>
                 </div>
               </div>
 
-              <div id="phone-input-code-content" role="tabpanel" class="hidden">
+              <div id="data-table-code-content" role="tabpanel" class="hidden">
                 <pre
-                  class="max-h-152 overflow-auto rounded-lg border bg-zinc-950 p-4 text-sm leading-6 text-zinc-100"><code id="phone-input-source">{component.source}</code></pre>
+                  class="max-h-152 overflow-auto rounded-lg border bg-zinc-950 p-4 text-sm leading-6 text-zinc-100"><code id="data-table-source">{component.source}</code></pre>
               </div>
 
               <div class="mt-6 rounded-lg border bg-muted/20 p-5 md:p-6">
@@ -298,9 +323,8 @@ export function ContactPhoneField() {
                   <div>
                     <h3 class="mb-3 text-sm font-semibold">Install notes</h3>
                     <p class="text-xs leading-5 text-muted-foreground">
-                      Requires <code>react-phone-number-input</code>, its flag
-                      data, and the local shadcn-style command, popover, scroll
-                      area, button, and input primitives.
+                      Install <code>@tanstack/react-table</code> and ensure you have
+                      local shadcn <code>table</code> and <code>paginator</code> primitives.
                     </p>
                   </div>
                 </div>
@@ -313,7 +337,7 @@ export function ContactPhoneField() {
                 Usage
               </div>
               <pre
-                class="overflow-auto rounded-lg border bg-muted p-4 text-sm leading-6"><code>{phoneInputExample}</code></pre>
+                class="overflow-auto rounded-lg border bg-muted p-4 text-sm leading-6"><code>{dataTableExample}</code></pre>
             </section>
 
             <section id="api" class="scroll-mt-24 p-5 md:p-6">
@@ -364,11 +388,11 @@ export function ContactPhoneField() {
                 <div class="space-y-4">
                   <p class="text-sm font-medium text-primary">Pattern</p>
                   <h2 class="text-3xl font-semibold">
-                    Store normalized phone values
+                    Highly Customizable Layouts
                   </h2>
                   <p class="max-w-2xl text-sm leading-6 text-muted-foreground">
-                    Use the E.164 value from <code>onChange</code> in form state,
-                    then validate or submit it with the rest of your contact fields.
+                    Connect it with standard react state or a server endpoint to
+                    render large dynamic datasets efficiently.
                   </p>
                   <a
                     href={`${import.meta.env.BASE_URL}docs/component-documentation-guide/`}
@@ -380,10 +404,15 @@ export function ContactPhoneField() {
                 </div>
 
                 <div class="rounded-lg border bg-background p-4 shadow-sm">
-                  <p class="text-sm font-semibold">Form usage</p>
-                  <p class="mt-2 text-sm leading-6 text-muted-foreground">
-                    Works well for account settings, checkout forms, booking
-                    flows, and support contact details.
+                  <div
+                    class="mb-3 flex items-center gap-2 text-sm font-semibold"
+                  >
+                    <Database className="size-4 text-primary" />
+                    Data views
+                  </div>
+                  <p class="text-sm leading-6 text-muted-foreground">
+                    Optimized for rapid loading and consistent alignment under
+                    modern glassmorphism dashboards.
                   </p>
                 </div>
               </div>

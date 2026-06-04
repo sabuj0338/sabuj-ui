@@ -2,7 +2,14 @@
 import { BookOpen, Layers3, Moon, Sun } from "lucide-react"
 
 interface Props {
-  active?: "components" | "timeline" | "paginator" | "phone-input" | "guide"
+  active?:
+    | "components"
+    | "timeline"
+    | "paginator"
+    | "phone-input"
+    | "data-table"
+    | "dynamic-search-controls"
+    | "guide"
 }
 
 const { active = "components" } = Astro.props
@@ -30,17 +37,44 @@ const linkClass = (id: Props["active"]) =>
     </a>
 
     <nav class="hidden items-center gap-1 md:flex" aria-label="Top navigation">
-      <a href={`${import.meta.env.BASE_URL}#components`} class={linkClass("components")}>Components</a>
-      <a href={`${import.meta.env.BASE_URL}components/timeline/`} class={linkClass("timeline")}>
+      <a
+        href={`${import.meta.env.BASE_URL}#components`}
+        class={linkClass("components")}>Components</a
+      >
+      <a
+        href={`${import.meta.env.BASE_URL}components/timeline/`}
+        class={linkClass("timeline")}
+      >
         Timeline
       </a>
-      <a href={`${import.meta.env.BASE_URL}components/paginator/`} class={linkClass("paginator")}>
+      <a
+        href={`${import.meta.env.BASE_URL}components/paginator/`}
+        class={linkClass("paginator")}
+      >
         Paginator
       </a>
-      <a href={`${import.meta.env.BASE_URL}components/phone-input/`} class={linkClass("phone-input")}>
+      <a
+        href={`${import.meta.env.BASE_URL}components/phone-input/`}
+        class={linkClass("phone-input")}
+      >
         Phone Input
       </a>
-      <a href={`${import.meta.env.BASE_URL}docs/component-documentation-guide/`} class={linkClass("guide")}>
+      <a
+        href={`${import.meta.env.BASE_URL}components/data-table/`}
+        class={linkClass("data-table")}
+      >
+        Data Table
+      </a>
+      <a
+        href={`${import.meta.env.BASE_URL}components/dynamic-search-controls/`}
+        class={linkClass("dynamic-search-controls")}
+      >
+        Dynamic Search
+      </a>
+      <a
+        href={`${import.meta.env.BASE_URL}docs/component-documentation-guide/`}
+        class={linkClass("guide")}
+      >
         Guide
       </a>
     </nav>
